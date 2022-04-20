@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using System.Windows.Media;
 using MessageBox = System.Windows.MessageBox;
 
@@ -116,12 +116,14 @@ namespace SMT
 
         private void SetLogLocation_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new FolderBrowserDialog();
+            /*var dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 MapConf.CustomEveLogFolderLocation = dialog.SelectedPath;
             }
             MessageBoxResult result = MessageBox.Show("Restart SMT for the log folder location to take effect", "Please Restart SMT", MessageBoxButton.OK);
+            */
+            return;
         }
 
         private void DefaultLogLocation_Click(object sender, RoutedEventArgs e)
