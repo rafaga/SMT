@@ -5,7 +5,7 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// Represents a fleet

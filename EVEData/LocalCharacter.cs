@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     //jumpclones
 

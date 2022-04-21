@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// Represents the actual eve system, this may be referenced by multiple regions in the case of either border systems or systems that make sense to be drawn in another region

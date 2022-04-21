@@ -2,10 +2,11 @@
 // EVE Anom Data
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
+//using System.Collections.Generic;
+//using System.Linq;
+using System.Text.Json;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// The Per system Anom Data

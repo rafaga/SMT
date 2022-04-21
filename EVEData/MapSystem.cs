@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Xml.Serialization;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// This is a representation of a System on a map.. usually these would be in the same region, however

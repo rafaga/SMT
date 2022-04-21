@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     public class Storm
     {

@@ -2,7 +2,7 @@
 // EVE Alliance
 //-----------------------------------------------------------------------
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// A simple container for Alliance items

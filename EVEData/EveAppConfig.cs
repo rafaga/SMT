@@ -2,7 +2,7 @@
 // EVE App Config
 //-----------------------------------------------------------------------
 
-namespace SMT.EVEData
+namespace EVEData
 {
     public class EveAppConfig
     {

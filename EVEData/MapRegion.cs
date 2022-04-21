@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// Represents a Map of a Region (will have out of region systems on the map)

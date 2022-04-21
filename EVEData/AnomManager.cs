@@ -5,7 +5,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// Anom Manager

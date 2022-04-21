@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Media;
+//using System.Windows.Media;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     public class Coalition
     {
-        public Color CoalitionColor { get; set; }
+        //public Color CoalitionColor { get; set; }
         public string ID { get; set; }
 
         //public Brush CoalitionBrush { get; set; }

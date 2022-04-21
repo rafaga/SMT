@@ -1,8 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// EVE Manager
-//-----------------------------------------------------------------------
-
-using ESI.NET;
+﻿using ESI.NET;
 using ESI.NET.Enumerations;
 using ESI.NET.Models.SSO;
 using Microsoft.Extensions.Options;
@@ -28,7 +24,7 @@ using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// The main EVE Manager
@@ -1559,9 +1555,12 @@ namespace SMT.EVEData
             Systems = Utils.DeserializeFromDisk<List<System>>(AppDomain.CurrentDomain.BaseDirectory + @"\Systems.dat");
             ShipTypes = Utils.DeserializeFromDisk<SerializableDictionary<string, string>>(AppDomain.CurrentDomain.BaseDirectory + @"\ShipTypes.dat");
 
-            foreach (System s in Systems)
+            if (Systems != null)
             {
-                SystemIDToName[s.ID] = s.Name;
+                foreach (System s in Systems)
+                {
+                    SystemIDToName[s.ID] = s.Name;
+                }
             }
 
             if (File.Exists(SaveDataVersionFolder + @"\CharacterNames.dat"))
@@ -1594,9 +1593,12 @@ namespace SMT.EVEData
             }
 
             // patch up any links
-            foreach (System s in Systems)
+            if (Systems != null)
             {
-                NameToSystem[s.Name] = s;
+                foreach (System s in Systems)
+                {
+                    NameToSystem[s.Name] = s;
+                }
             }
 
             // now add the beacons

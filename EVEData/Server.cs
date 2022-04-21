@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Threading;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     public class Server : INotifyPropertyChanged
     {

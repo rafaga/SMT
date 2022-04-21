@@ -11,7 +11,7 @@ using System.Net;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// The ZKillboard RedisQ representation

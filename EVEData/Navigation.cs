@@ -12,7 +12,7 @@ namespace SMT
     }
 }
 
-namespace SMT.EVEData
+namespace EVEData
 {
     public class Navigation
     {

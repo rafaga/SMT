@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SMT.EVEData
+namespace EVEData
 {
     /// <summary>
     /// An Signature / Anom
