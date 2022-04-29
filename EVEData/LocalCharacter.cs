@@ -10,8 +10,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
+using System.Drawing;
+using SkiaSharp;
 using System.Xml.Serialization;
 
 namespace EVEData
@@ -60,7 +60,7 @@ namespace EVEData
 
         private int ssoErrorCount = 0;
 
-        private static BitmapImage unknownChar = null;
+        private static SKBitmap unknownChar = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Character" /> class
@@ -116,16 +116,22 @@ namespace EVEData
 
             if (unknownChar == null)
             {
+                //TODO: Migrate to the application binary
+                /*
                 Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
                     unknownChar = SMT.ResourceUsage.ResourceLoader.LoadBitmapFromResource("Images/unknownChar.png");
                 }), DispatcherPriority.Normal, null);
+                */
             }
 
+            //TODO: Migrate to the application binary
+            /*
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
                 Portrait = unknownChar;
             }), DispatcherPriority.Normal, null);
+            */
         }
 
         /// <summary>
@@ -377,7 +383,7 @@ namespace EVEData
         public List<string> WarningSystems { get; set; }
 
         [XmlIgnoreAttribute]
-        public BitmapImage Portrait { get; set; }
+        public SKBitmap Portrait { get; set; }
 
         [XmlIgnoreAttribute]
         public String AlertText { get; set; }
@@ -730,7 +736,8 @@ namespace EVEData
                 }
                 Navigation.UpdateTheraConnections(currentActiveTheraConnections);
 
-                Application.Current.Dispatcher.Invoke((Action)(() =>
+                //TODO: Migrate to the application Binary
+                /*Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
                     lock (ActiveRouteLock)
                     {
@@ -741,7 +748,7 @@ namespace EVEData
                     }
 
                     ActiveRoute.Clear();
-                }), DispatcherPriority.Normal);
+                }), DispatcherPriority.Normal);*/
 
                 // loop through all the waypoints
                 for (int i = 0; i < Waypoints.Count; i++)
@@ -753,7 +760,8 @@ namespace EVEData
 
                     if (sysList != null)
                     {
-                        Application.Current.Dispatcher.Invoke((Action)(() =>
+                        // TODO: Migrate to Application binary
+                        /*Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
                             lock (ActiveRouteLock)
                             {
@@ -762,7 +770,7 @@ namespace EVEData
                                     ActiveRoute.Add(s);
                                 }
                             }
-                        }), DispatcherPriority.Normal, null);
+                        }), DispatcherPriority.Normal, null);*/
                     }
                 }
             }
@@ -864,10 +872,11 @@ namespace EVEData
                     {
                         FleetInfo.FleetID = 0;
 
-                        Application.Current.Dispatcher.Invoke((Action)(() =>
+                        // TODO: Migarte to the application Binary
+                        /*Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
                             FleetInfo.Members.Clear();
-                        }), DispatcherPriority.Normal);
+                        }), DispatcherPriority.Normal);*/
                     }
                 }
 
@@ -901,10 +910,11 @@ namespace EVEData
                                 fm = new Fleet.FleetMember();
                                 fm.IsValid = true;
 
-                                Application.Current.Dispatcher.Invoke((Action)(() =>
+                                // TODO: Migrate to application binary
+                                /*Application.Current.Dispatcher.Invoke((Action)(() =>
                                 {
                                     FleetInfo.Members.Add(fm);
-                                }), DispatcherPriority.Normal);
+                                }), DispatcherPriority.Normal);*/
                             }
 
                             EVEData.System es = EveManager.Instance.GetEveSystemFromID(esifm.SolarSystemId);
@@ -947,10 +957,11 @@ namespace EVEData
                         {
                             if (!ff.IsValid)
                             {
-                                Application.Current.Dispatcher.Invoke((Action)(() =>
+                                // TODO: Migrate to application binary
+                                /*Application.Current.Dispatcher.Invoke((Action)(() =>
                                 {
                                     FleetInfo.Members.Remove(ff);
-                                }), DispatcherPriority.Normal);
+                                }), DispatcherPriority.Normal);*/
                             }
                         }
                     }
@@ -960,10 +971,11 @@ namespace EVEData
                         FleetInfo.NextFleetMembershipCheck = DateTime.Now + TimeSpan.FromSeconds(60);
                         FleetInfo.FleetID = 0;
 
-                        Application.Current.Dispatcher.Invoke((Action)(() =>
+                        // TODO: Migrate to application binary
+                        /*Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
                             FleetInfo.Members.Clear();
-                        }), DispatcherPriority.Normal);
+                        }), DispatcherPriority.Normal);*/
                     }
                 }
             }
@@ -1064,7 +1076,8 @@ namespace EVEData
 
                 if (File.Exists(characterPortrait))
                 {
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    // TODO: Migrate to Application binary
+                    /*Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
                         try
                         {
@@ -1075,7 +1088,7 @@ namespace EVEData
                         {
                             // something wrong with the portrait
                         }
-                    }), DispatcherPriority.Normal, null);
+                    }), DispatcherPriority.Normal, null);*/
                 }
 
                 //get the corp info

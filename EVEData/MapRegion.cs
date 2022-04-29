@@ -102,7 +102,7 @@ namespace EVEData
         /// </summary>
         public double UniverseViewY { get; set; }
 
-        public List<Point> RegionOutline { get; set; }
+        public List<nAlpha.Point> RegionOutline { get; set; }
 
         /// <summary>
         /// Is the System on this region map : note as we're using the dotlan layout we have out of region systems on the map for navigability reasons

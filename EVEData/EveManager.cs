@@ -2,27 +2,18 @@
 using ESI.NET.Enumerations;
 using ESI.NET.Models.SSO;
 using Microsoft.Extensions.Options;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Drawing;
 
 namespace EVEData
 {
@@ -916,12 +907,12 @@ namespace EVEData
                 foreach (MapSystem ms in mr.MapSystems.Values.ToList())
                 {
                     List<Vector2f> cellList = v.Region(new Vector2f(ms.LayoutX, ms.LayoutY));
-                    ms.CellPoints = new List<Point>();
+                    ms.CellPoints = new List<nAlpha.Point>();
 
                     foreach (Vector2f vc in cellList)
                     {
                         float RoundVal = 2.5f;
-                        ms.CellPoints.Add(new Point(Math.Round(vc.x / RoundVal, 1, MidpointRounding.AwayFromZero) * RoundVal, Math.Round(vc.y / RoundVal, 1, MidpointRounding.AwayFromZero) * RoundVal));
+                        ms.CellPoints.Add(new nAlpha.Point(Math.Round(vc.x / RoundVal, 1, MidpointRounding.AwayFromZero) * RoundVal, Math.Round(vc.y / RoundVal, 1, MidpointRounding.AwayFromZero) * RoundVal));
                         //ms.CellPoints.Add(new Point(vc.x, vc.y));
                     }
                 }
@@ -1203,7 +1194,7 @@ namespace EVEData
 
                 nAlpha.Shape ns = shapeCalc.CalculateShape(regionShapePL.ToArray());
 
-                mr.RegionOutline = new List<Point>();
+                mr.RegionOutline = new List<nAlpha.Point>();
 
                 List<Tuple<int, int>> processed = new List<Tuple<int, int>>();
 
@@ -1219,7 +1210,7 @@ namespace EVEData
 
                         if (i.Item1 == CurrentPoint)
                         {
-                            mr.RegionOutline.Add(new Point(ns.Vertices[CurrentPoint].X, ns.Vertices[CurrentPoint].Y));
+                            mr.RegionOutline.Add(new nAlpha.Point(ns.Vertices[CurrentPoint].X, ns.Vertices[CurrentPoint].Y));
                             CurrentPoint = i.Item2;
                             processed.Add(i);
                             break;
@@ -1227,7 +1218,7 @@ namespace EVEData
 
                         if (i.Item2 == CurrentPoint)
                         {
-                            mr.RegionOutline.Add(new Point(ns.Vertices[CurrentPoint].X, ns.Vertices[CurrentPoint].Y));
+                            mr.RegionOutline.Add(new nAlpha.Point(ns.Vertices[CurrentPoint].X, ns.Vertices[CurrentPoint].Y));
                             CurrentPoint = i.Item1;
                             processed.Add(i);
                             break;
@@ -1523,10 +1514,11 @@ namespace EVEData
             {
                 esiChar = new LocalCharacter(acd.CharacterName, string.Empty, string.Empty);
 
-                Application.Current.Dispatcher.Invoke((Action)(() =>
+                // TODO: Migrate to the application binary functions
+                /*Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
                     LocalCharacters.Add(esiChar);
-                }), DispatcherPriority.Normal, null);
+                }), DispatcherPriority.Normal, null);*/
             }
 
             esiChar.ESIRefreshToken = acd.RefreshToken;
@@ -2082,17 +2074,19 @@ namespace EVEData
             request.Timeout = 20000;
             request.Proxy = null;
 
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            // TODO:Migrate to Application binary
+            /*Application.Current.Dispatcher.Invoke((Action)(() =>
             {
                 TheraConnections.Clear();
-            }), DispatcherPriority.Normal, null);
+            }), DispatcherPriority.Normal, null);*/
 
             request.BeginGetResponse(new AsyncCallback(UpdateTheraConnectionsCallback), request);
         }
 
         public void UpdateMetaliminalStorms()
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            //TODO: Migrate into Application Binary
+            /*Application.Current.Dispatcher.Invoke((Action)(() =>
             {
                 MetaliminalStorms.Clear();
 
@@ -2105,7 +2099,7 @@ namespace EVEData
                         MetaliminalStorms.Add(s);
                     }
                 }
-            }), DispatcherPriority.Normal, null);
+            }), DispatcherPriority.Normal, null);*/
 
             // now update the Strong and weak areas around the storm
             foreach (Storm s in MetaliminalStorms)
@@ -2246,7 +2240,7 @@ namespace EVEData
 
             LoadCharacters();
 
-            InitTheraConnections();
+            /*InitTheraConnections();
             InitMetaliminalStorms();
             InitPOI();
 
@@ -2255,7 +2249,7 @@ namespace EVEData
             InitZKillFeed();
             StartUpdateCoalitionInfo();
 
-            StartBackgroundThread();
+            StartBackgroundThread();*/
         }
 
         private void InitPOI()
@@ -2418,10 +2412,11 @@ namespace EVEData
 
                                     if (addChar)
                                     {
-                                        Application.Current.Dispatcher.Invoke((Action)(() =>
+                                        // TODO: Migrate into the Application Binary 
+                                        /*Application.Current.Dispatcher.Invoke((Action)(() =>
                                         {
                                             LocalCharacters.Add(new EVEData.LocalCharacter(characterName, changedFile, system));
-                                        }), DispatcherPriority.Normal, null);
+                                        }), DispatcherPriority.Normal, null);*/
                                     }
 
                                     break;
@@ -2466,7 +2461,8 @@ namespace EVEData
                             {
                                 string system = line.Split(':').Last().Trim();
 
-                                Application.Current.Dispatcher.Invoke((Action)(() =>
+                                // TODO: Migrate to the application binary
+                                /*Application.Current.Dispatcher.Invoke((Action)(() =>
                                 {
                                     foreach (EVEData.LocalCharacter c in LocalCharacters)
                                     {
@@ -2475,12 +2471,13 @@ namespace EVEData
                                             c.Location = system;
                                         }
                                     }
-                                }), DispatcherPriority.Normal, null);
+                                }), DispatcherPriority.Normal, null);*/
                             }
                         }
                         else
                         {
-                            Application.Current.Dispatcher.Invoke((Action)(() =>
+                            //TODO: Migrate into the Application Binary
+                            /*Application.Current.Dispatcher.Invoke((Action)(() =>
                             {
                                 // check if it is in the intel list already (ie if you have multiple clients running)
                                 bool addToIntel = true;
@@ -2554,7 +2551,7 @@ namespace EVEData
                                         IntelAddedEvent(id.Systems);
                                     }
                                 }
-                            }), DispatcherPriority.Normal, null);
+                            }), DispatcherPriority.Normal, null);*/
                         }
 
                         line = file.ReadLine();
@@ -2662,7 +2659,8 @@ namespace EVEData
                     // strip the formatting from the log
                     line = Regex.Replace(line, "<.*?>", String.Empty);
 
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    // TODO: Migrate into the Application Binary
+                    /*Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
                         GameLogData gd = new GameLogData()
                         {
@@ -2673,7 +2671,7 @@ namespace EVEData
                         };
 
                         GameLogList.Insert(0, gd);
-                    }), DispatcherPriority.Normal, null);
+                    }), DispatcherPriority.Normal, null);*/
 
                     foreach (LocalCharacter lc in LocalCharacters)
                     {
@@ -2694,7 +2692,8 @@ namespace EVEData
 
                             if (sendWindowsNotification)
                             {
-                                Application.Current.Dispatcher.Invoke((Action)(() =>
+                                //TODO: Migrate into Application Binary
+                                /*Application.Current.Dispatcher.Invoke((Action)(() =>
                                 {
                                     // Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
                                     ToastContentBuilder tb = new ToastContentBuilder();
@@ -2708,7 +2707,7 @@ namespace EVEData
                                     Uri woopUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\Sounds\woop.mp3");
                                     tb.AddAudio(woopUri);
                                     tb.Show();
-                                }), DispatcherPriority.Normal, null);
+                                }), DispatcherPriority.Normal, null);*/
                             }
                         }
                     }
@@ -2989,10 +2988,11 @@ namespace EVEData
                                 ss.Type = "TCU";
                             }
 
-                            Application.Current.Dispatcher.Invoke((Action)(() =>
+                            // TODO: Migrate to Application Binary
+                            /*Application.Current.Dispatcher.Invoke((Action)(() =>
                             {
                                 ActiveSovCampaigns.Add(ss);
-                            }), DispatcherPriority.Normal, null);
+                            }), DispatcherPriority.Normal, null);*/
                         }
 
                         ss.AttackersScore = c.AttackersScore;
@@ -3042,10 +3042,11 @@ namespace EVEData
 
                     if (sc.Valid == false)
                     {
-                        Application.Current.Dispatcher.Invoke((Action)(() =>
+                        //TODO: Migrate to Application binary
+                        /*Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
                             ActiveSovCampaigns.Remove(sc);
-                        }), DispatcherPriority.Normal, null);
+                        }), DispatcherPriority.Normal, null);*/
                     }
                 }
 
@@ -3055,11 +3056,12 @@ namespace EVEData
                 // ugly and to be fixed after some investigation
                 {
                     SOVCampaign hackSC = new SOVCampaign();
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    // TODO: Migrate to Application Binary
+                    /*Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
                         ActiveSovCampaigns.Add(hackSC);
                         ActiveSovCampaigns.Remove(hackSC);
-                    }), DispatcherPriority.Normal, null);
+                    }), DispatcherPriority.Normal, null);*/
                 }
             }
             catch { }
@@ -3163,6 +3165,7 @@ namespace EVEData
 
         private void UpdateCoalitionInfoCallback(IAsyncResult asyncResult)
         {
+            ColorConverter ColConv = new ColorConverter();
             HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
             try
             {
@@ -3184,7 +3187,7 @@ namespace EVEData
                                 c.Name = cd.Name;
                                 c.ID = cd.Id;
                                 c.MemberAlliances = new List<long>();
-                                c.CoalitionColor = (Color)ColorConverter.ConvertFromString(cd.Color);
+                                c.CoalitionColor = (Color)ColConv.ConvertFromString(cd.Color);
                                 //c.CoalitionBrush = new SolidColorBrush(c.CoalitionColor);
 
                                 foreach (CoalitionData.Alliance a in cd.Alliances)
@@ -3293,11 +3296,14 @@ namespace EVEData
                                     System theraConnectionSystem = GetEveSystemFromID(solarSystemId);
 
                                     TheraConnection tc = new TheraConnection(theraConnectionSystem.Name, theraConnectionSystem.Region, inSignatureId, outSignatureId, wormHoleEOL);
-
+                                    
+                                    //TODO: Migrate to the application binary
+                                    /*
                                     Application.Current.Dispatcher.Invoke((Action)(() =>
                                     {
                                         TheraConnections.Add(tc);
                                     }), DispatcherPriority.Normal, null);
+                                    */
                                 }
                             }
                         }

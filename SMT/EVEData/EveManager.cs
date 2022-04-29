@@ -2698,7 +2698,8 @@ namespace SMT.EVEData
 
                             if (sendWindowsNotification)
                             {
-                                Application.Current.Dispatcher.Invoke((Action)(() =>
+                                //TODO: Migrate to Application Binary
+                                /*Application.Current.Dispatcher.Invoke((Action)(() =>
                                 {
                                     // Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
                                     ToastContentBuilder tb = new ToastContentBuilder();
@@ -2712,7 +2713,7 @@ namespace SMT.EVEData
                                     Uri woopUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\Sounds\woop.mp3");
                                     tb.AddAudio(woopUri);
                                     tb.Show();
-                                }), DispatcherPriority.Normal, null);
+                                }), DispatcherPriority.Normal, null);*/
                             }
                         }
                     }

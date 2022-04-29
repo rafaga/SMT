@@ -8,8 +8,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Windows;
-using System.Windows.Threading;
+using System.Threading;
 
 namespace EVEData
 {
@@ -46,10 +45,11 @@ namespace EVEData
             backgroundWorker.DoWork += zkb_DoWork;
             backgroundWorker.RunWorkerCompleted += zkb_DoWorkComplete;
 
-            DispatcherTimer dp = new DispatcherTimer();
+            // TODO: Migrate to Application Binary
+            /*DispatcherTimer dp = new DispatcherTimer();
             dp.Interval = TimeSpan.FromSeconds(10);
             dp.Tick += Dp_Tick;
-            dp.Start();
+            dp.Start();*/
         }
 
         public void ShutDown()
@@ -123,10 +123,11 @@ namespace EVEData
 
                         zs.VictimAllianceName = EveManager.Instance.GetAllianceName(zs.VictimAllianceID);
 
-                        Application.Current.Dispatcher.Invoke((Action)(() =>
+                        // TODO: Migrate into Application Binary
+                        /*Application.Current.Dispatcher.Invoke((Action)(() =>
                         {
                             KillStream.Insert(0, zs);
-                        }));
+                        }));*/
                     }
                 }
                 catch
@@ -159,10 +160,11 @@ namespace EVEData
 
                 if (KillStream[i].KillTime + TimeSpan.FromMinutes(KillExpireTimeMinutes) < DateTimeOffset.Now)
                 {
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    //TODO: Migrate to Application Binary
+                    /*Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
                         KillStream.RemoveAt(i);
-                    }));
+                    }));*/
                 }
             }
             if (AllianceIDs.Count > 0)

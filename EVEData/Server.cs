@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Threading;
+using System.Threading;
 
 namespace EVEData
 {
@@ -16,10 +16,11 @@ namespace EVEData
             // EVE Time is basically UTC time
             ServerTime = DateTime.UtcNow;
 
-            DispatcherTimer timer = new DispatcherTimer();
+            // TODO: Migrate to Application Binary
+            /*DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(10000);
             timer.Tick += new EventHandler(UpdateServerTime);
-            timer.Start();
+            timer.Start();*/
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

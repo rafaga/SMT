@@ -833,6 +833,7 @@ namespace SMT
 
         private void UpdateCharacterSelectionBasedOnActiveWindow()
         {
+            // TODO: CAmbiar esta funcion por que usa system32.dll
             string ActiveWindowText = Utils.GetCaptionOfActiveWindow();
 
             if (ActiveWindowText.Contains("EVE - "))

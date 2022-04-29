@@ -24,7 +24,7 @@ namespace EVEData
         /// <summary>
         /// Gets or sets the list of points defining the cell around this system
         /// </summary>
-        public List<Point> CellPoints { get; set; }
+        public List<nAlpha.Point> CellPoints { get; set; }
 
         /// <summary>
         /// Gets or sets the X Coordinate for the layout
