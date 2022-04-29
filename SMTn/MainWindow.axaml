@@ -33,7 +33,7 @@
 				<SplitView.Pane>
 					<StackPanel>
 						<Label>Intel Data</Label>
-						<ListBox Items="{Binding IntelData}"/>
+						<ListBox ClipToBounds="true" Items="{Binding IntelData}"/>
 					</StackPanel>
 				</SplitView.Pane>
 			</SplitView>

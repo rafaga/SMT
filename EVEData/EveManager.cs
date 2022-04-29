@@ -14,6 +14,10 @@ using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Drawing;
+// ------------------ IMPLEMETING ----------------------
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EVEData
 {

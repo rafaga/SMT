@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="SMTn.NewVersionWindow"
+        Title="New Version Available"
+		ExtendClientAreaToDecorationsHint="True">
+	<StackPanel Orientation="Vertical">
+		<Panel>
+			<Label Content="Update Available"/>
+		</Panel>
+		<Panel>
+			<Label Content="Current Version:"/>
+			<Label Name="CerrentVersion" Content="{Binding CurrentVersion}" 
+				   />
+		</Panel>
+		<Panel>
+			<Label Content="New Version:"/>
+			<Label Name="NewVersion" Content="{Binding NewVersion}"/>
+		</Panel>
+		<Panel>
+			<Label Content="Release Notes:"/>
+			<ScrollViewer>
+				<Label Name="ReleaseNotes" Content="{Binding ReleaseNotes}"/>
+			</ScrollViewer>
+		</Panel>
+		<Panel>
+			<Button Content="Download"/>
+		</Panel>
+	</StackPanel>
+</Window>
