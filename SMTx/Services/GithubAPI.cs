@@ -18,11 +18,11 @@ namespace SMTx.Services
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client.DefaultRequestHeaders.AcceptCharset.Add(new StringWithQualityHeaderValue("UTF-8"));
             _client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SMT", "1.xx"));
+            _client.BaseAddress = new Uri("https://api.github.com");
         }
 
         public GithubRelease GetLastSMTVersion()
-        {
-            _client.BaseAddress = new Uri("https://api.github.com");
+        {   
             HttpResponseMessage response = _client.GetAsync("/repos/slazanger/smt/releases/latest").Result;
             if (response.IsSuccessStatusCode)
             {

@@ -1,10 +1,8 @@
 ﻿using System;
 
-/* **************************************************
- *  Class Github Release (we are using System.text.json
- *  to deserialize the objects)
- * **************************************************
- * */
+/// <summary>
+/// Class Github Release (we are using System.text.json to deserialize the objects)
+/// </summary>
 namespace SMTx.Models
 {
     internal class GithubRelease

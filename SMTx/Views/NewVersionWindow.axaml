@@ -1,12 +1,13 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:SMTx.ViewModels"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="clr-namespace:SMTx.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SMTx.Views.NewVersionWindow"
        Title="New Version Available"
-		ExtendClientAreaToDecorationsHint="True">
+		ExtendClientAreaToDecorationsHint="True"
+        Width="400" Height="300">
 	<Design.DataContext>
 		<vm:NewVersionViewModel/>
 	</Design.DataContext>
@@ -14,22 +15,28 @@
 		<Panel>
 			<Label Content="Update Available"/>
 		</Panel>
+    <Panel>
+      <StackPanel Orientation="Horizontal">
+      <Label Content="Current Version:"/>
+      <Label Content="{Binding CurrentVersion}"/>
+      </StackPanel>
+    </Panel>
 		<Panel>
-			<Label Content="Current Version:"/>
-			<Label Content="{Binding CurrentVersion}"/>
+      <StackPanel Orientation="Horizontal">
+        <Label Content="New Version:"/>
+        <Label Content="{Binding NewVersion}"/>
+      </StackPanel>
 		</Panel>
+    <Panel>
+      <Label Content="Release Notes:"/>
+    </Panel>
+    <Panel>
+      <ScrollViewer>
+        <Label Content="{Binding ReleaseNotes}"/>
+      </ScrollViewer>
+    </Panel>
 		<Panel>
-			<Label Content="New Version:"/>
-			<Label Content="{Binding NewVersion}"/>
-		</Panel>
-		<Panel>
-			<Label Content="Release Notes:"/>
-			<ScrollViewer>
-				<Label Content="{Binding ReleaseNotes}"/>
-			</ScrollViewer>
-		</Panel>
-		<Panel>
-			<Button Content="Download"/>
+			<Button Content="Download" Command="{Binding clickDownload}"/>
 		</Panel>
 	</StackPanel>
 </Window>

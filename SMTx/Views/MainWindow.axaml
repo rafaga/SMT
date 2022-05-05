@@ -1,17 +1,16 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:SMTx.ViewModels"
+        xmlns:vm="clr-namespace:SMTx.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SMTx.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
         Title="SMTx"
 		ExtendClientAreaToDecorationsHint="True">
 	<Design.DataContext>
-		<vm:MainWindowViewModel/>
+    <vm:MainWindowViewModel />
 	</Design.DataContext>
-	<Grid RowDefinitions="30,*,30">
+	<Grid RowDefinitions="30,*,30" ColumnDefinitions="*">
 		<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
 			<Menu>
 				<MenuItem Header="_File">
@@ -21,7 +20,8 @@
 					<MenuItem Header="_Exit"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Data">
-					<MenuItem Header="_Force ESI Update"></MenuItem>
+          <MenuItem Header="_Force ESI Update"></MenuItem>
+          <MenuItem Header="_Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_View">
 					<MenuItem Header="_Full Screen"></MenuItem>
@@ -38,21 +38,21 @@
 			<SplitView.Pane>
 				<StackPanel>
 					<Label>Intel Data</Label>
-					<ListBox ClipToBounds="true" Items="{Binding IntelData}"/>
+					<ListBox ClipToBounds="true" Items=""/>
 				</StackPanel>
 			</SplitView.Pane>
 		</SplitView>
 		<StackPanel Grid.Row="2" Grid.Column="0"  Orientation="Horizontal" Margin="5">
 			<Panel>
 				<Label Content="EVE time:"/>
-				<Label Content="{Binding ServerTime, StringFormat=HH:mm}" />
+				<Label Content="" />
 			</Panel>
 			<Panel>
 				<Label Content="Tranquility Version:"/>
-				<Label Content="{Binding ServerVersion}" />
+				<Label Content="" />
 			</Panel>
 			<Panel>
-				<Label Content="{Binding NumPlayers}" />
+				<Label Content="" />
 				<Label Content="Players"/>
 			</Panel>
 		</StackPanel>
