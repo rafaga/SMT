@@ -1,9 +1,9 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.ReactiveUI;
 using System;
 
-namespace SMTn
+namespace SMTx
 {
     internal class Program
     {
@@ -18,6 +18,7 @@ namespace SMTn
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToTrace();
+                .LogToTrace()
+                .UseReactiveUI();
     }
 }

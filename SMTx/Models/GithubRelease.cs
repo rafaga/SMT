@@ -5,7 +5,7 @@
  *  to deserialize the objects)
  * **************************************************
  * */
-namespace SMTn
+namespace SMTx.Models
 {
     internal class GithubRelease
     {

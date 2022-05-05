@@ -1,28 +1,31 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="using:SMTx.ViewModels"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
-        x:Class="SMTn.NewVersionWindow"
-        Title="New Version Available"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SMTx.Views.NewVersionWindow"
+       Title="New Version Available"
 		ExtendClientAreaToDecorationsHint="True">
+	<Design.DataContext>
+		<vm:NewVersionViewModel/>
+	</Design.DataContext>
 	<StackPanel Orientation="Vertical">
 		<Panel>
 			<Label Content="Update Available"/>
 		</Panel>
 		<Panel>
 			<Label Content="Current Version:"/>
-			<Label Name="CerrentVersion" Content="{Binding CurrentVersion}" 
-				   />
+			<Label Content="{Binding CurrentVersion}"/>
 		</Panel>
 		<Panel>
 			<Label Content="New Version:"/>
-			<Label Name="NewVersion" Content="{Binding NewVersion}"/>
+			<Label Content="{Binding NewVersion}"/>
 		</Panel>
 		<Panel>
 			<Label Content="Release Notes:"/>
 			<ScrollViewer>
-				<Label Name="ReleaseNotes" Content="{Binding ReleaseNotes}"/>
+				<Label Content="{Binding ReleaseNotes}"/>
 			</ScrollViewer>
 		</Panel>
 		<Panel>
