@@ -1,42 +1,39 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:SMTx.ViewModels"
+        xmlns:vm="using:SMTx.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SMTx.Views.NewVersionWindow"
-       Title="New Version Available"
-		ExtendClientAreaToDecorationsHint="True"
+		    ExtendClientAreaToDecorationsHint="True"
         Width="400" Height="300">
 	<Design.DataContext>
 		<vm:NewVersionViewModel/>
 	</Design.DataContext>
 	<StackPanel Orientation="Vertical">
 		<Panel>
-			<Label Content="Update Available"/>
+			<Label Margin="3" Content="Update Available"/>
 		</Panel>
-    <Panel>
-      <StackPanel Orientation="Horizontal">
-      <Label Content="Current Version:"/>
-      <Label Content="{Binding CurrentVersion}"/>
-      </StackPanel>
-    </Panel>
 		<Panel>
       <StackPanel Orientation="Horizontal">
         <Label Content="New Version:"/>
         <Label Content="{Binding NewVersion}"/>
+        <Label Content="{Binding CurrentVersion}"/>
       </StackPanel>
 		</Panel>
     <Panel>
       <Label Content="Release Notes:"/>
     </Panel>
     <Panel>
-      <ScrollViewer>
+      <ScrollViewer >
         <Label Content="{Binding ReleaseNotes}"/>
       </ScrollViewer>
     </Panel>
+    <Panel>
+      <ProgressBar/>
+    </Panel>
 		<Panel>
-			<Button Content="Download" Command="{Binding clickDownload}"/>
+			<Button Name="Download" Content="Download" Command="{Binding clickDownload}"/>
 		</Panel>
 	</StackPanel>
 </Window>

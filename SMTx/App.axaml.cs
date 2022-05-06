@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using SMTx.ViewModels;
@@ -8,6 +9,8 @@ namespace SMTx
 {
     public partial class App : Application
     {
+        public static Window RefMainWindow;
+        
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -21,6 +24,7 @@ namespace SMTx
                 {
                     DataContext = new MainWindowViewModel(),
                 };
+                RefMainWindow = desktop.MainWindow;
             }
 
             base.OnFrameworkInitializationCompleted();

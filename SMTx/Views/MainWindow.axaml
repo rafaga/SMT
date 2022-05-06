@@ -1,12 +1,12 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:SMTx.ViewModels"
+        xmlns:vm="using:SMTx.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="SMTx.Views.MainWindow"
-        Title="SMTx"
-		ExtendClientAreaToDecorationsHint="True">
+        x:Class="SMTx.Views.MainWindow" 
+        Title="SMTx - Crossplataform SMT"
+				ExtendClientAreaToDecorationsHint="True">
 	<Design.DataContext>
     <vm:MainWindowViewModel />
 	</Design.DataContext>
@@ -31,7 +31,7 @@
 			<Rectangle Width="50"></Rectangle>
 			<Panel Width="200" Margin="3">
 				<Label VerticalAlignment="Center" Content="Active Character:"/>
-				<ComboBox VerticalAlignment="Center" HorizontalAlignment="Right"></ComboBox>
+				<ComboBox VerticalAlignment="Center" HorizontalAlignment="Right" Items="{Binding Characters}"></ComboBox>
 			</Panel>
 		</StackPanel>
 		<SplitView Grid.Row="1" Grid.Column="0" IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="300">
@@ -42,18 +42,24 @@
 				</StackPanel>
 			</SplitView.Pane>
 		</SplitView>
-		<StackPanel Grid.Row="2" Grid.Column="0"  Orientation="Horizontal" Margin="5">
+		<StackPanel Grid.Row="2" Grid.Column="0"  Orientation="Horizontal">
 			<Panel>
-				<Label Content="EVE time:"/>
-				<Label Content="" />
+        <StackPanel Orientation="Horizontal">
+					<Label Margin="3" Content="EVE time:"/>
+					<Label Margin="3" Content="" />
+        </StackPanel>
 			</Panel>
 			<Panel>
-				<Label Content="Tranquility Version:"/>
-				<Label Content="" />
+        <StackPanel Orientation="Horizontal">
+					<Label Margin="3" Content="Tranquility Version:"/>
+					<Label Margin="3" Content="" />
+        </StackPanel>
 			</Panel>
 			<Panel>
-				<Label Content="" />
-				<Label Content="Players"/>
+        <StackPanel Orientation="Horizontal">
+					<Label Margin="3" Content="" />
+					<Label Margin="3" Content="Players"/>
+        </StackPanel>
 			</Panel>
 		</StackPanel>
 	</Grid>

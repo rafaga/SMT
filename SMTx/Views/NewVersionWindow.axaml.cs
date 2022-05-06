@@ -1,10 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+using SMTx.ViewModels;
 
 namespace SMTx.Views
 {
-    public partial class NewVersionWindow : Window
+    internal partial class NewVersionWindow : ReactiveWindow<NewVersionViewModel>
     {
         public NewVersionWindow()
         {
@@ -18,5 +20,7 @@ namespace SMTx.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
+
+        
     }
 }

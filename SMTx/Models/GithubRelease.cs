@@ -7,13 +7,13 @@ namespace SMTx.Models
 {
     internal class GithubRelease
     {
-        public Uri url { get; set; }
+        public Uri? url { get; set; }
 
-        public Uri assts_url { get; set; }
+        public Uri? assts_url { get; set; }
 
         public string upload_url { get; set; }
 
-        public Uri html_url { get; set; }
+        public Uri? html_url { get; set; }
 
         public long id { get; set; }
 
@@ -27,7 +27,7 @@ namespace SMTx.Models
 
         public bool draft { get; set; }
 
-        public GitHubAuthor author { get; set; }
+        public GitHubAuthor? author { get; set; }
 
         public bool prerelease { get; set; }
 
@@ -35,18 +35,18 @@ namespace SMTx.Models
 
         public DateTimeOffset published_at { get; set; }
 
-        public GitHubAsset[] assets { get; set; }
+        public GitHubAsset[]? assets { get; set; }
 
-        public Uri tarball_url { get; set; }
+        public Uri? tarball_url { get; set; }
 
-        public Uri zipball_url { get; set; }
+        public Uri? zipball_url { get; set; }
 
         public string body { get; set; }
 
     }
     public class GitHubAsset
     {
-        public Uri url { get; set; }
+        public Uri? url { get; set; }
 
         public long id { get; set; }
 
@@ -70,7 +70,7 @@ namespace SMTx.Models
 
         public DateTimeOffset updated_at { get; set; }
 
-        public Uri browser_download_url { get; set; }
+        public Uri? browser_download_url { get; set; }
     }
 
     public class GitHubAuthor
@@ -81,15 +81,15 @@ namespace SMTx.Models
 
         public string node_id { get; set; }
 
-        public Uri avatar_url { get; set; }
+        public Uri? avatar_url { get; set; }
 
         public string gravatar_id { get; set; }
 
-        public Uri url { get; set; }
+        public Uri? url { get; set; }
 
-        public Uri html_url { get; set; }
+        public Uri? html_url { get; set; }
 
-        public Uri followers_url { get; set; }
+        public Uri? followers_url { get; set; }
 
         public string following_url { get; set; }
 
@@ -97,15 +97,15 @@ namespace SMTx.Models
 
         public string starred_url { get; set; }
 
-        public Uri subscriptions_url { get; set; }
+        public Uri? subscriptions_url { get; set; }
 
-        public Uri organizations_url { get; set; }
+        public Uri? organizations_url { get; set; }
 
-        public Uri repos_url { get; set; }
+        public Uri? repos_url { get; set; }
 
         public string events_url { get; set; }
 
-        public Uri received_events_url { get; set; }
+        public Uri? received_events_url { get; set; }
 
         public string type { get; set; }
 
