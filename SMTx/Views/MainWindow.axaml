@@ -6,10 +6,15 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SMTx.Views.MainWindow" 
         Title="SMTx - Crossplataform SMT"
-				ExtendClientAreaToDecorationsHint="True">
+				ExtendClientAreaToDecorationsHint="False">
 	<Design.DataContext>
     <vm:MainWindowViewModel />
 	</Design.DataContext>
+  <NativeMenu.Menu>
+    <NativeMenu>
+      <NativeMenuItem Header="Hola" Gesture="cmd+a"></NativeMenuItem>
+    </NativeMenu>
+  </NativeMenu.Menu>
 	<Grid RowDefinitions="30,*,30" ColumnDefinitions="*">
 		<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
 			<Menu>
@@ -20,8 +25,8 @@
 					<MenuItem Header="_Exit"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Data">
-          <MenuItem Header="_Force ESI Update"></MenuItem>
-          <MenuItem Header="_Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
+					<MenuItem Header="_Force ESI Update"></MenuItem>
+					<MenuItem Header="_Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_View">
 					<MenuItem Header="_Full Screen"></MenuItem>
@@ -44,22 +49,22 @@
 		</SplitView>
 		<StackPanel Grid.Row="2" Grid.Column="0"  Orientation="Horizontal">
 			<Panel>
-        <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
 					<Label Margin="3" Content="EVE time:"/>
 					<Label Margin="3" Content="" />
-        </StackPanel>
+				</StackPanel>
 			</Panel>
 			<Panel>
-        <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
 					<Label Margin="3" Content="Tranquility Version:"/>
 					<Label Margin="3" Content="" />
-        </StackPanel>
+				</StackPanel>
 			</Panel>
 			<Panel>
-        <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
 					<Label Margin="3" Content="" />
 					<Label Margin="3" Content="Players"/>
-        </StackPanel>
+				</StackPanel>
 			</Panel>
 		</StackPanel>
 	</Grid>

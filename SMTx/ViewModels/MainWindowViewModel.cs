@@ -8,7 +8,7 @@ namespace SMTx.ViewModels
 {
     internal class MainWindowViewModel : ViewModelBase
     {
-        public const string SMT_VERSION = "SMT_109";
+        public const string SMT_VERSION = "SMT_108";
         public Interaction<NewVersionViewModel, NewVersionViewModel?>ShowNewVersionDialog { get; }
         public IReactiveCommand ClickCheckUpdates { get; }
 

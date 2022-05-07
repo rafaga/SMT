@@ -17,7 +17,7 @@ namespace SMTx.ViewModels
         private string _newVersion;
         private string _releaseNotes;
         private Uri _releaseUrl;
-        private bool _isNewVersionAvailable = false;
+        private bool _isNewVersionAvailable;
         private HttpClient _client;
         private IReactiveCommand clickDownload { get; set; }
 
