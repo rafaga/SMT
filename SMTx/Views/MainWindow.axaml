@@ -20,8 +20,8 @@
 					<MenuItem Header="_Exit"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Data">
-          <MenuItem Header="_Force ESI Update"></MenuItem>
-          <MenuItem Header="_Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
+					<MenuItem Header="_Force ESI Update"></MenuItem>
+					<MenuItem Header="_Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_View">
 					<MenuItem Header="_Full Screen"></MenuItem>
@@ -44,22 +44,22 @@
 		</SplitView>
 		<StackPanel Grid.Row="2" Grid.Column="0"  Orientation="Horizontal">
 			<Panel>
-        <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
 					<Label Margin="3" Content="EVE time:"/>
 					<Label Margin="3" Content="" />
-        </StackPanel>
+				</StackPanel>
 			</Panel>
 			<Panel>
-        <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
 					<Label Margin="3" Content="Tranquility Version:"/>
 					<Label Margin="3" Content="" />
-        </StackPanel>
+				</StackPanel>
 			</Panel>
 			<Panel>
-        <StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
 					<Label Margin="3" Content="" />
 					<Label Margin="3" Content="Players"/>
-        </StackPanel>
+				</StackPanel>
 			</Panel>
 		</StackPanel>
 	</Grid>

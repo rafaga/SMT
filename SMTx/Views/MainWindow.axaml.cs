@@ -5,6 +5,7 @@ using ReactiveUI;
 using Avalonia.Markup.Xaml;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Platform;
 
 namespace SMTx.Views
 {
@@ -18,6 +19,12 @@ namespace SMTx.Views
             this.AttachDevTools();
 #endif
             this.WhenActivated(d => d(ViewModel!.ShowNewVersionDialog.RegisterHandler(asyncShowNewVersionDialog)));
+
+            OperatingSystemType oOS = AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo().OperatingSystem;
+            if (oOS == OperatingSystemType.OSX || oOS == OperatingSystemType.Linux)
+            {
+                this.FindControl<Menu>("SystemMenu").IsVisible = false;
+            }
         }
 
         private void InitializeComponent()
