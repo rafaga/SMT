@@ -1,18 +1,18 @@
-﻿using ESI.NET.Enumerations;
-using ESI.NET.Models.SSO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Drawing;
 using SkiaSharp;
 using System.Xml.Serialization;
+using ESI.NET.Enumerations;
+using ESI.NET.Models.SSO;
 
 namespace EVEData
 {
@@ -1065,8 +1065,13 @@ namespace EVEData
                     {
                         try
                         {
-                            WebClient webClient = new WebClient();
-                            webClient.DownloadFile(esri.Data.x128, characterPortrait);
+                            HttpClient hc = new HttpClient();
+                            var response = await hc.GetAsync(esri.Data.x128);
+                            using (var fs = new FileStream(characterPortrait, FileMode.CreateNew))
+                            {
+                                await response.Content.CopyToAsync(fs);
+                            }
+
                         }
                         catch
                         {
