@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SMT.EVEData;
+using SMT.ResourceUsage;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,8 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using SMT.EVEData;
-using SMT.ResourceUsage;
 
 namespace SMT
 {
@@ -876,6 +876,7 @@ namespace SMT
 
             EVEData.AnomData system = ANOMManager.GetSystemAnomData(name);
             ANOMManager.ActiveSystem = system;
+            ///AnomSigList.ItemsSource = system.Anoms.Values;
         }
 
         public void UpdateActiveCharacter(EVEData.LocalCharacter c = null)

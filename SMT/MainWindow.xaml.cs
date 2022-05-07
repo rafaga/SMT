@@ -1,3 +1,6 @@
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Win32;
+using SMT.EVEData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -5,7 +8,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -16,9 +19,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Microsoft.Win32;
-using SMT.EVEData;
 
 namespace SMT
 {
@@ -59,11 +59,11 @@ namespace SMT
 
             // Load the Dock Manager Layout file
             string dockManagerLayoutName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\SMT\\" + SMT_VERSION + "\\Layout.dat";
-            if (File.Exists(dockManagerLayoutName) && OperatingSystem.IsWindows())
+            if (File.Exists(dockManagerLayoutName))
             {
                 try
                 {
-                    AvalonDock.Layout.Serialization.XmlLayoutSerializer ls = new(dockManager);
+                    AvalonDock.Layout.Serialization.XmlLayoutSerializer ls = new AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
                     using (var sr = new StreamReader(dockManagerLayoutName))
                     {
                         ls.Deserialize(sr);
@@ -113,7 +113,7 @@ namespace SMT
             EVEManager.UseESIForCharacterPositions = MapConf.UseESIForCharacterPositions;
 
             // if we want to re-build the data as we've changed the format, recreate it all from scratch
-            bool initFromScratch = true;
+            bool initFromScratch = false;
             if (initFromScratch)
             {
                 EVEManager.CreateFromScratch();
@@ -321,14 +321,10 @@ namespace SMT
 
             try
             {
-                if (OperatingSystem.IsWindows())
+                AvalonDock.Layout.Serialization.XmlLayoutSerializer ls = new AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
+                using (var sw = new StreamWriter(defaultLayoutFile))
                 {
-                    AvalonDock.Layout.Serialization.XmlLayoutSerializer ls = new AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
-                    using (var sw = new StreamWriter(defaultLayoutFile))
-                    {
-                        ls.Serialize(sw);
-                    }
-
+                    ls.Serialize(sw);
                 }
             }
             catch
@@ -681,42 +677,55 @@ namespace SMT
 
         #region NewVersion
 
-        private async void CheckGitHubVersion()
+        private void CheckGitHubVersion()
         {
             string url = @"https://api.github.com/repos/slazanger/smt/releases/latest";
-            string strContent = string.Empty;
 
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = WebRequestMethods.Http.Get;
+            request.Timeout = 20000;
+            request.Proxy = null;
+            request.UserAgent = "SMT/0.xx";
+
+            request.BeginGetResponse(new AsyncCallback(CheckGitHubVersionCallback), request);
+        }
+
+        private void CheckGitHubVersionCallback(IAsyncResult asyncResult)
+        {
+            HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
             try
             {
-                HttpClient hc = new HttpClient();
-                var response = await hc.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                strContent = await response.Content.ReadAsStringAsync();
-
-            }
-            catch
-            {
-                return;
-            }
-
-
-            GitHubRelease.Release releaseInfo = GitHubRelease.Release.FromJson(strContent);
-
-            if (releaseInfo != null)
-            {
-                if (releaseInfo.TagName != SMT_VERSION)
+                using (HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asyncResult))
                 {
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    Stream responseStream = response.GetResponseStream();
+                    using (StreamReader sr = new StreamReader(responseStream))
                     {
-                        NewVersionWindow nw = new NewVersionWindow();
-                        nw.ReleaseInfo = releaseInfo.Body;
-                        nw.CurrentVersion = SMT_VERSION;
-                        nw.NewVersion = releaseInfo.TagName;
-                        nw.ReleaseURL = releaseInfo.HtmlUrl.ToString();
-                        nw.Owner = this;
-                        nw.ShowDialog();
-                    }), DispatcherPriority.ApplicationIdle);
+                        // Need to return this response
+                        string strContent = sr.ReadToEnd();
+
+                        GitHubRelease.Release releaseInfo = GitHubRelease.Release.FromJson(strContent);
+
+                        if (releaseInfo != null)
+                        {
+                            if (releaseInfo.TagName != SMT_VERSION)
+                            {
+                                Application.Current.Dispatcher.Invoke((Action)(() =>
+                                {
+                                    NewVersionWindow nw = new NewVersionWindow();
+                                    nw.ReleaseInfo = releaseInfo.Body;
+                                    nw.CurrentVersion = SMT_VERSION;
+                                    nw.NewVersion = releaseInfo.TagName;
+                                    nw.ReleaseURL = releaseInfo.HtmlUrl.ToString();
+                                    nw.Owner = this;
+                                    nw.ShowDialog();
+                                }), DispatcherPriority.ApplicationIdle);
+                            }
+                        }
+                    }
                 }
+            }
+            catch (Exception)
+            {
             }
         }
 
@@ -824,6 +833,7 @@ namespace SMT
 
         private void UpdateCharacterSelectionBasedOnActiveWindow()
         {
+            // TODO: CAmbiar esta funcion por que usa system32.dll
             string ActiveWindowText = Utils.GetCaptionOfActiveWindow();
 
             if (ActiveWindowText.Contains("EVE - "))
@@ -1627,22 +1637,17 @@ namespace SMT
 
             lc.GameLogWarningText = line;
 
-
-            if (OperatingSystem.IsWindows() && OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763, 0))
-            {
-                ToastContentBuilder tb = new ToastContentBuilder();
-                tb.AddText("SMT Alert");
-                tb.AddText("Character : " + characterName + "(" + lc.Location + ")");
-                tb.AddInlineImage(lc.Portrait.UriSource);
-                tb.AddText(line);
-                tb.AddArgument("character", characterName);
-                tb.SetToastScenario(ToastScenario.Alarm);
-                tb.SetToastDuration(ToastDuration.Long);
-                Uri woopUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\Sounds\woop.mp3");
-                tb.AddAudio(woopUri);
-                tb.Show();
-
-            }
+            ToastContentBuilder tb = new ToastContentBuilder();
+            tb.AddText("SMT Alert");
+            tb.AddText("Character : " + characterName + "(" + lc.Location + ")");
+            tb.AddInlineImage(lc.Portrait.UriSource);
+            tb.AddText(line);
+            tb.AddArgument("character", characterName);
+            tb.SetToastScenario(ToastScenario.Alarm);
+            tb.SetToastDuration(ToastDuration.Long);
+            Uri woopUri = new Uri(AppDomain.CurrentDomain.BaseDirectory + @"\Sounds\woop.mp3");
+            tb.AddAudio(woopUri);
+            tb.Show();
         }
 
         private void miResetLayout_Click(object sender, RoutedEventArgs e)

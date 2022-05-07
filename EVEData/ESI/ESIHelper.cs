@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ESI.NET;
+using System;
 using System.Net;
-using ESI.NET;
 
 namespace EVEData
 {
