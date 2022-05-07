@@ -5,12 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Threading;
+using System.Net.Http;
+using System.Windows;
+using System.Windows.Threading;
 
-namespace EVEData
+namespace SMT.EVEData
 {
     /// <summary>
     /// The ZKillboard RedisQ representation
@@ -45,11 +45,10 @@ namespace EVEData
             backgroundWorker.DoWork += zkb_DoWork;
             backgroundWorker.RunWorkerCompleted += zkb_DoWorkComplete;
 
-            // TODO: Migrate to Application Binary
-            /*DispatcherTimer dp = new DispatcherTimer();
+            DispatcherTimer dp = new DispatcherTimer();
             dp.Interval = TimeSpan.FromSeconds(10);
             dp.Tick += Dp_Tick;
-            dp.Start();*/
+            dp.Start();
         }
 
         public void ShutDown()
@@ -68,73 +67,54 @@ namespace EVEData
         private void zkb_DoWork(object sender, DoWorkEventArgs e)
         {
             string redistURL = @"https://redisq.zkillboard.com/listen.php";
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(redistURL);
-            request.Method = WebRequestMethods.Http.Get;
-            request.Timeout = 60000;
-            request.UserAgent = VerString;
-            request.KeepAlive = true;
-            request.Proxy = null;
-            HttpWebResponse response;
-
+            string strContent = string.Empty;
             try
             {
-                response = request.GetResponse() as HttpWebResponse;
+                HttpClient hc = new HttpClient();
+                var response = hc.GetAsync(redistURL).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    strContent = response.Content.ReadAsStringAsync().Result;
+                }
             }
-            catch (Exception)
+            catch
             {
                 e.Result = -1;
                 return;
             }
 
-            Stream responseStream = response.GetResponseStream();
 
-            using (StreamReader sr = new StreamReader(responseStream))
+            ZKBData.ZkbData z = ZKBData.ZkbData.FromJson(strContent);
+            if (z.Package != null)
             {
-                try
+                ZKBDataSimple zs = new ZKBDataSimple();
+                zs.KillID = long.Parse(z.Package.KillId.ToString());
+                zs.VictimAllianceID = long.Parse(z.Package.Killmail.Victim.AllianceId.ToString());
+                zs.VictimCharacterID = long.Parse(z.Package.Killmail.Victim.CharacterId.ToString());
+                zs.VictimCorpID = long.Parse(z.Package.Killmail.Victim.CharacterId.ToString());
+                zs.SystemName = EveManager.Instance.GetEveSystemNameFromID(z.Package.Killmail.SolarSystemId);
+                if (zs.SystemName == string.Empty)
                 {
-                    // Need to return this response
-                    string strContent = sr.ReadToEnd();
-
-                    ZKBData.ZkbData z = ZKBData.ZkbData.FromJson(strContent);
-                    if (z.Package != null)
-                    {
-                        ZKBDataSimple zs = new ZKBDataSimple();
-                        zs.KillID = long.Parse(z.Package.KillId.ToString());
-                        zs.VictimAllianceID = long.Parse(z.Package.Killmail.Victim.AllianceId.ToString());
-                        zs.VictimCharacterID = long.Parse(z.Package.Killmail.Victim.CharacterId.ToString());
-                        zs.VictimCorpID = long.Parse(z.Package.Killmail.Victim.CharacterId.ToString());
-                        zs.SystemName = EveManager.Instance.GetEveSystemNameFromID(z.Package.Killmail.SolarSystemId);
-                        if (zs.SystemName == string.Empty)
-                        {
-                            zs.SystemName = z.Package.Killmail.SolarSystemId.ToString();
-                        }
-
-                        zs.KillTime = z.Package.Killmail.KillmailTime.ToLocalTime();
-                        string shipID = z.Package.Killmail.Victim.ShipTypeId.ToString();
-                        if (EveManager.Instance.ShipTypes.Keys.Contains(shipID))
-                        {
-                            zs.ShipType = EveManager.Instance.ShipTypes[shipID];
-                        }
-                        else
-                        {
-                            zs.ShipType = "Unknown (" + shipID + ")";
-                        }
-
-                        zs.VictimAllianceName = EveManager.Instance.GetAllianceName(zs.VictimAllianceID);
-
-                        // TODO: Migrate into Application Binary
-                        /*Application.Current.Dispatcher.Invoke((Action)(() =>
-                        {
-                            KillStream.Insert(0, zs);
-                        }));*/
-                    }
+                    zs.SystemName = z.Package.Killmail.SolarSystemId.ToString();
                 }
-                catch
+
+                zs.KillTime = z.Package.Killmail.KillmailTime.ToLocalTime();
+                string shipID = z.Package.Killmail.Victim.ShipTypeId.ToString();
+                if (EveManager.Instance.ShipTypes.Keys.Contains(shipID))
                 {
-                    e.Result = -1;
-                    return;
+                    zs.ShipType = EveManager.Instance.ShipTypes[shipID];
                 }
+                else
+                {
+                    zs.ShipType = "Unknown (" + shipID + ")";
+                }
+
+                zs.VictimAllianceName = EveManager.Instance.GetAllianceName(zs.VictimAllianceID);
+
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    KillStream.Insert(0, zs);
+                }));
             }
 
             e.Result = 0;
@@ -160,11 +140,10 @@ namespace EVEData
 
                 if (KillStream[i].KillTime + TimeSpan.FromMinutes(KillExpireTimeMinutes) < DateTimeOffset.Now)
                 {
-                    //TODO: Migrate to Application Binary
-                    /*Application.Current.Dispatcher.Invoke((Action)(() =>
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
                         KillStream.RemoveAt(i);
-                    }));*/
+                    }));
                 }
             }
             if (AllianceIDs.Count > 0)
