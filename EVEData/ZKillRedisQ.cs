@@ -5,15 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
-<<<<<<< HEAD
 using System.Net;
 using System.Threading;
-=======
-using System.Net.Http;
-using System.Windows;
-using System.Windows.Threading;
->>>>>>> origin/dotnet6_upgrade
 
 namespace EVEData
 {
@@ -73,35 +68,31 @@ namespace EVEData
         private void zkb_DoWork(object sender, DoWorkEventArgs e)
         {
             string redistURL = @"https://redisq.zkillboard.com/listen.php";
-            string strContent = string.Empty;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(redistURL);
+            request.Method = WebRequestMethods.Http.Get;
+            request.Timeout = 60000;
+            request.UserAgent = VerString;
+            request.KeepAlive = true;
+            request.Proxy = null;
+            HttpWebResponse response;
+
             try
             {
-                HttpClient hc = new HttpClient();
-                var response = hc.GetAsync(redistURL).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    strContent = response.Content.ReadAsStringAsync().Result;
-                }
+                response = request.GetResponse() as HttpWebResponse;
             }
-            catch
+            catch (Exception)
             {
                 e.Result = -1;
                 return;
             }
 
+            Stream responseStream = response.GetResponseStream();
 
-            ZKBData.ZkbData z = ZKBData.ZkbData.FromJson(strContent);
-            if (z.Package != null)
+            using (StreamReader sr = new StreamReader(responseStream))
             {
-                ZKBDataSimple zs = new ZKBDataSimple();
-                zs.KillID = long.Parse(z.Package.KillId.ToString());
-                zs.VictimAllianceID = long.Parse(z.Package.Killmail.Victim.AllianceId.ToString());
-                zs.VictimCharacterID = long.Parse(z.Package.Killmail.Victim.CharacterId.ToString());
-                zs.VictimCorpID = long.Parse(z.Package.Killmail.Victim.CharacterId.ToString());
-                zs.SystemName = EveManager.Instance.GetEveSystemNameFromID(z.Package.Killmail.SolarSystemId);
-                if (zs.SystemName == string.Empty)
+                try
                 {
-<<<<<<< HEAD
                     // Need to return this response
                     string strContent = sr.ReadToEnd();
 
@@ -138,28 +129,12 @@ namespace EVEData
                             KillStream.Insert(0, zs);
                         }));*/
                     }
-=======
-                    zs.SystemName = z.Package.Killmail.SolarSystemId.ToString();
->>>>>>> origin/dotnet6_upgrade
                 }
-
-                zs.KillTime = z.Package.Killmail.KillmailTime.ToLocalTime();
-                string shipID = z.Package.Killmail.Victim.ShipTypeId.ToString();
-                if (EveManager.Instance.ShipTypes.Keys.Contains(shipID))
+                catch
                 {
-                    zs.ShipType = EveManager.Instance.ShipTypes[shipID];
+                    e.Result = -1;
+                    return;
                 }
-                else
-                {
-                    zs.ShipType = "Unknown (" + shipID + ")";
-                }
-
-                zs.VictimAllianceName = EveManager.Instance.GetAllianceName(zs.VictimAllianceID);
-
-                Application.Current.Dispatcher.Invoke((Action)(() =>
-                {
-                    KillStream.Insert(0, zs);
-                }));
             }
 
             e.Result = 0;

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿using ESI.NET;
 using ESI.NET.Enumerations;
 using ESI.NET.Models.SSO;
@@ -9,40 +8,16 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Net;
-=======
-﻿//-----------------------------------------------------------------------
-// EVE Manager
-//-----------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
->>>>>>> origin/dotnet6_upgrade
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
-<<<<<<< HEAD
 using System.Drawing;
 // ------------------ IMPLEMETING ----------------------
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-=======
-using ESI.NET;
-using ESI.NET.Enumerations;
-using ESI.NET.Models.SSO;
-using Microsoft.Extensions.Options;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
->>>>>>> origin/dotnet6_upgrade
 
 namespace EVEData
 {
@@ -280,6 +255,63 @@ namespace EVEData
         /// </summary>
         private Dictionary<string, System> NameToSystem { get; }
 
+        public CharacterIDs.Character[] BulkUpdateCharacterCache(List<string> charList)
+        {
+            CharacterIDs.CharacterIdData cd = new CharacterIDs.CharacterIdData();
+
+            string esiCharString = "[";
+            foreach (string s in charList)
+            {
+                esiCharString += "\"";
+                esiCharString += s;
+                esiCharString += "\",";
+            }
+            esiCharString += "\"0\"]";
+
+            string url = @"https://esi.evetech.net/v1/universe/ids/?";
+
+            var httpData = HttpUtility.ParseQueryString(string.Empty);
+
+            httpData["datasource"] = "tranquility";
+
+            string httpDataStr = httpData.ToString();
+            byte[] data = UTF8Encoding.UTF8.GetBytes(esiCharString);
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + httpDataStr);
+            request.Method = WebRequestMethods.Http.Post;
+            request.Timeout = 20000;
+            request.Proxy = null;
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            var stream = request.GetRequestStream();
+            stream.Write(data, 0, data.Length);
+
+            HttpWebResponse esiResult = (HttpWebResponse)request.GetResponse();
+
+            if (esiResult.StatusCode != HttpStatusCode.OK)
+            {
+                return null;
+            }
+
+            Stream responseStream = esiResult.GetResponseStream();
+            using (StreamReader sr = new StreamReader(responseStream))
+            {
+                // Need to return this response
+                string strContent = sr.ReadToEnd();
+
+                try
+                {
+                    cd = CharacterIDs.CharacterIdData.FromJson(strContent);
+                    if (cd.Characters != null)
+                    {
+                    }
+                }
+                catch { }
+            }
+
+            return cd.Characters;
+        }
 
         /// <summary>
         /// Scrape the maps from dotlan and initialise the region data from dotlan
@@ -361,11 +393,14 @@ namespace EVEData
 
             Systems = new List<System>();
 
+            // create folder cache
+            WebClient webClient = new WebClient();
 
             // update the region cache
             foreach (MapRegion rd in Regions)
             {
                 string localSVG = AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\SourceMaps\dotlan\" + rd.DotLanRef + ".svg";
+                string remoteSVG = @"http://evemaps.dotlan.net/svg/" + rd.DotLanRef + ".svg";
 
                 if (!File.Exists(localSVG))
                 {
@@ -1991,13 +2026,15 @@ namespace EVEData
         /// </summary>
         public void UpdateESIUniverseData()
         {
-            UpdateKillsFromESI();
-            UpdateJumpsFromESI();
-            UpdateSOVFromESI();
-            UpdateIncursionsFromESI();
+            StartUpdateKillsFromESI();
+            StartUpdateJumpsFromESI();
+            StartUpdateSOVFromESI();
+            StartUpdateIncursionsFromESI();
+            // temp disabled
+            //StartUpdateStructureHunterUpdate();
 
-            UpdateSovStructureUpdate();
-            UpdateDotlanKillDeltaInfo();
+            StartUpdateSovStructureUpdate();
+            StartUpdateDotlanKillDeltaInfo();
         }
 
         /// <summary>
@@ -2032,12 +2069,10 @@ namespace EVEData
         /// <summary>
         /// Update the current Thera Connections from EVE-Scout
         /// </summary>
-        public async void UpdateTheraConnections()
+        public void UpdateTheraConnections()
         {
             string theraApiURL = "https://www.eve-scout.com/api/wormholes";
-            string strContent = string.Empty;
 
-<<<<<<< HEAD
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(theraApiURL);
             request.Method = WebRequestMethods.Http.Get;
             request.Timeout = 20000;
@@ -2048,52 +2083,8 @@ namespace EVEData
             {
                 TheraConnections.Clear();
             }), DispatcherPriority.Normal, null);*/
-=======
-            try
-            {
-                HttpClient hc = new HttpClient();
-                var response = await hc.GetAsync(theraApiURL);
-                response.EnsureSuccessStatusCode();
-                strContent = await response.Content.ReadAsStringAsync();
 
-
-                JsonTextReader jsr = new JsonTextReader(new StringReader(strContent));
-
-                // JSON feed is now in the format : {"id":38199,"signatureId":"QRQ","type":"wormhole","status":"scanned","wormholeMass":"stable","wormholeEol":"critical","wormholeEstimatedEol":"2018-02-25T20:41:21.000Z","wormholeDestinationSignatureId":"VHT","createdAt":"2018-02-25T04:41:21.000Z","updatedAt":"2018-02-25T16:41:46.000Z","deletedAt":null,"statusUpdatedAt":"2018-02-25T04:41:44.000Z","createdBy":"Erik Holden","createdById":"95598233","deletedBy":null,"deletedById":null,"wormholeSourceWormholeTypeId":91,"wormholeDestinationWormholeTypeId":140,"solarSystemId":31000005,"wormholeDestinationSolarSystemId":30001175,"sourceWormholeType":
-                while (jsr.Read())
-                {
-                    if (jsr.TokenType == JsonToken.StartObject)
-                    {
-                        JObject obj = JObject.Load(jsr);
-                        string inSignatureId = obj["wormholeDestinationSignatureId"].ToString();
-                        string outSignatureId = obj["signatureId"].ToString();
-                        long solarSystemId = long.Parse(obj["wormholeDestinationSolarSystemId"].ToString());
-                        string wormHoleEOL = obj["wormholeEol"].ToString();
-                        string type = obj["type"].ToString();
-
-                        if (type != null && type == "wormhole" && solarSystemId != 0 && wormHoleEOL != null && SystemIDToName.Keys.Contains(solarSystemId))
-                        {
-                            System theraConnectionSystem = GetEveSystemFromID(solarSystemId);
-
-                            TheraConnection tc = new TheraConnection(theraConnectionSystem.Name, theraConnectionSystem.Region, inSignatureId, outSignatureId, wormHoleEOL);
-
-                            Application.Current.Dispatcher.Invoke((Action)(() =>
-                            {
-                                TheraConnections.Add(tc);
-                            }), DispatcherPriority.Normal, null);
-                        }
-                    }
-                }
-
-
-            }
-            catch
-            {
-                return;
-            }
-
->>>>>>> origin/dotnet6_upgrade
-
+            request.BeginGetResponse(new AsyncCallback(UpdateTheraConnectionsCallback), request);
         }
 
         public void UpdateMetaliminalStorms()
@@ -2165,7 +2156,51 @@ namespace EVEData
             }
         }
 
+        /// <summary>
+        /// ESI Result Response
+        /// </summary>
+        private void ESIUpdateSovCallback(IAsyncResult asyncResult)
+        {
+            HttpWebRequest request = (HttpWebRequest)asyncResult.AsyncState;
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asyncResult))
+                {
+                    Stream responseStream = response.GetResponseStream();
+                    using (StreamReader sr = new StreamReader(responseStream))
+                    {
+                        // Need to return this response
+                        string strContent = sr.ReadToEnd();
+                        JsonTextReader jsr = new JsonTextReader(new StringReader(strContent));
 
+                        // JSON feed is now in the format : [{ "system_id": 30035042,  and then optionally alliance_id, corporation_id and corporation_id, faction_id },
+                        while (jsr.Read())
+                        {
+                            if (jsr.TokenType == JsonToken.StartObject)
+                            {
+                                JObject obj = JObject.Load(jsr);
+                                long systemID = long.Parse(obj["system_id"].ToString());
+
+                                if (SystemIDToName.Keys.Contains(systemID))
+                                {
+                                    System es = GetEveSystem(SystemIDToName[systemID]);
+                                    if (es != null)
+                                    {
+                                        if (obj["alliance_id"] != null)
+                                        {
+                                            es.SOVAllianceTCU = long.Parse(obj["alliance_id"].ToString());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
 
         /// <summary>
         /// Initialise the eve manager
@@ -2216,7 +2251,7 @@ namespace EVEData
             ActiveSovCampaigns = new ObservableCollection<SOVCampaign>();
 
             InitZKillFeed();
-            UpdateCoalitionInfo();
+            StartUpdateCoalitionInfo();
 
             StartBackgroundThread();*/
         }
@@ -2659,7 +2694,7 @@ namespace EVEData
                                 sendWindowsNotification = true;
                             }
 
-                            if (sendWindowsNotification && OperatingSystem.IsWindows() && OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763, 0))
+                            if (sendWindowsNotification)
                             {
                                 //TODO: Migrate into Application Binary
                                 /*Application.Current.Dispatcher.Invoke((Action)(() =>
@@ -2767,7 +2802,7 @@ namespace EVEData
                     if ((NextSOVCampaignUpdate - DateTime.Now).Ticks < 0)
                     {
                         NextSOVCampaignUpdate = DateTime.Now + SOVCampaignUpdateRate;
-                        UpdateSovCampaigns();
+                        StartUpdateSovCampaigns();
                     }
 
                     // low frequency update
@@ -2785,49 +2820,21 @@ namespace EVEData
             }).Start();
         }
 
-        private async void UpdateCoalitionInfo()
+        private void StartUpdateCoalitionInfo()
         {
             Coalitions = new List<Coalition>();
 
             string url = @"http://rischwa.net/api/coalitions/current";
-            string strContent = string.Empty;
 
-            try
-            {
-                HttpClient hc = new HttpClient();
-                var response = await hc.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                strContent = await response.Content.ReadAsStringAsync();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = WebRequestMethods.Http.Get;
+            request.Timeout = 20000;
+            request.Proxy = null;
 
-                var coalitions = CoalitionData.CoalitionInfo.FromJson(strContent);
-
-                if (coalitions != null)
-                {
-                    foreach (CoalitionData.Coalition cd in coalitions.Coalitions)
-                    {
-                        Coalition c = new Coalition();
-                        c.Name = cd.Name;
-                        c.ID = cd.Id;
-                        c.MemberAlliances = new List<long>();
-                        c.CoalitionColor = (Color)ColorConverter.ConvertFromString(cd.Color);
-                        //c.CoalitionBrush = new SolidColorBrush(c.CoalitionColor);
-
-                        foreach (CoalitionData.Alliance a in cd.Alliances)
-                        {
-                            c.MemberAlliances.Add(a.Id);
-                        }
-
-                        Coalitions.Add(c);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
+            request.BeginGetResponse(new AsyncCallback(UpdateCoalitionInfoCallback), request);
         }
 
-        private async void UpdateDotlanKillDeltaInfo()
+        private void StartUpdateDotlanKillDeltaInfo()
         {
             foreach (MapRegion mr in Regions)
             {
@@ -2841,41 +2848,20 @@ namespace EVEData
                 }
 
                 string url = @"http://evemaps.dotlan.net/js/" + mr.DotLanRef + ".js";
-                string strContent = string.Empty;
 
-                try
-                {
-                    HttpClient hc = new HttpClient();
-                    var response = await hc.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    strContent = await response.Content.ReadAsStringAsync();
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = WebRequestMethods.Http.Get;
+                request.Timeout = 20000;
+                request.Proxy = null;
 
-                    // this string is a javascript variable; so if we strip off the comment and variable we can parse it as raw json
-                    int substrpos = strContent.IndexOf("{");
-                    string json = strContent.Substring(substrpos - 1);
-
-                    var systemData = Dotlan.SystemData.FromJson(json);
-
-                    foreach (KeyValuePair<string, Dotlan.SystemData> kvp in systemData)
-                    {
-                        System s = GetEveSystemFromID(long.Parse(kvp.Key));
-                        if (s != null && kvp.Value.Nd.HasValue)
-                        {
-                            s.NPCKillsDeltaLastHour = (int)kvp.Value.Nd.Value;
-                        }
-                    }
-                }
-                catch
-                {
-
-                }
+                request.BeginGetResponse(new AsyncCallback(UpdateDotlanKillDeltaInfoCallback), request);
             }
         }
 
         /// <summary>
         /// Start the ESI download for the Jump info
         /// </summary>
-        private async void UpdateIncursionsFromESI()
+        private async void StartUpdateIncursionsFromESI()
         {
             try
             {
@@ -2903,7 +2889,7 @@ namespace EVEData
         /// <summary>
         /// Start the ESI download for the Jump info
         /// </summary>
-        private async void UpdateJumpsFromESI()
+        private async void StartUpdateJumpsFromESI()
         {
             try
             {
@@ -2928,7 +2914,7 @@ namespace EVEData
         /// <summary>
         /// Start the ESI download for the kill info
         /// </summary>
-        private async void UpdateKillsFromESI()
+        private async void StartUpdateKillsFromESI()
         {
             try
             {
@@ -2952,7 +2938,7 @@ namespace EVEData
             }
         }
 
-        private async void UpdateSovCampaigns()
+        private async void StartUpdateSovCampaigns()
         {
             try
             {
@@ -3088,49 +3074,19 @@ namespace EVEData
         /// <summary>
         /// Start the ESI download for the kill info
         /// </summary>
-        private async void UpdateSOVFromESI()
+        private void StartUpdateSOVFromESI()
         {
             string url = @"https://esi.evetech.net/v1/sovereignty/map/?datasource=tranquility";
-            string strContent = string.Empty;
 
-            try
-            {
-                HttpClient hc = new HttpClient();
-                var response = await hc.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                strContent = await response.Content.ReadAsStringAsync();
-                JsonTextReader jsr = new JsonTextReader(new StringReader(strContent));
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = WebRequestMethods.Http.Get;
+            request.Timeout = 20000;
+            request.Proxy = null;
 
-                // JSON feed is now in the format : [{ "system_id": 30035042,  and then optionally alliance_id, corporation_id and corporation_id, faction_id },
-                while (jsr.Read())
-                {
-                    if (jsr.TokenType == JsonToken.StartObject)
-                    {
-                        JObject obj = JObject.Load(jsr);
-                        long systemID = long.Parse(obj["system_id"].ToString());
-
-                        if (SystemIDToName.Keys.Contains(systemID))
-                        {
-                            System es = GetEveSystem(SystemIDToName[systemID]);
-                            if (es != null)
-                            {
-                                if (obj["alliance_id"] != null)
-                                {
-                                    es.SOVAllianceTCU = long.Parse(obj["alliance_id"].ToString());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-
+            request.BeginGetResponse(new AsyncCallback(ESIUpdateSovCallback), request);
         }
 
-        private async void UpdateSovStructureUpdate()
+        private async void StartUpdateSovStructureUpdate()
         {
             try
             {
@@ -3164,7 +3120,6 @@ namespace EVEData
             catch { }
         }
 
-<<<<<<< HEAD
         private void StartUpdateStructureHunterUpdate()
         {
             string url = @"https://stop.hammerti.me.uk/api/structure/all";
@@ -3288,8 +3243,6 @@ namespace EVEData
             {
             }
         }
-=======
->>>>>>> origin/dotnet6_upgrade
 
         /// <summary>
         /// Start the download for the Server Info
@@ -3312,7 +3265,6 @@ namespace EVEData
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         ///  Update Thera Connections Callback
         /// </summary>
@@ -3366,7 +3318,5 @@ namespace EVEData
             {
             }
         }
-=======
->>>>>>> origin/dotnet6_upgrade
     }
 }
