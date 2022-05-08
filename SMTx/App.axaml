@@ -5,10 +5,11 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-<NativeMenu.Menu Name="">
+<NativeMenu.Menu>
     <NativeMenu/>
 </NativeMenu.Menu>
     <Application.Styles>
         <FluentTheme Mode="Dark"/>
+      <StyleInclude Source="avares://SMTx/SMTx.axaml"/>
     </Application.Styles>
 </Application>

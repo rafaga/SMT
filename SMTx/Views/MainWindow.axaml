@@ -19,7 +19,7 @@
   </NativeMenu.Menu>
 	<Grid RowDefinitions="30,*,30" ColumnDefinitions="*">
 		<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-			<Menu Name="SystemMenu">
+			<Menu Name="SystemMenu" IsVisible="False">
 				<MenuItem Header="_File">
 					<MenuItem Header="_Characters"></MenuItem>
 					<MenuItem Header="_Preferences"></MenuItem>
@@ -36,6 +36,8 @@
 				</MenuItem>
 			</Menu>
 			<Rectangle Width="70"></Rectangle>
+      <Button><PathIcon Data="{StaticResource menu}" Height="10" Width="10"/></Button>
+      <Rectangle Width="40"></Rectangle>
 			<Panel Width="200" Margin="3">
 				<Label VerticalAlignment="Center" Content="Active Character:"/>
 				<ComboBox VerticalAlignment="Center" HorizontalAlignment="Right" Items="{Binding Characters}"></ComboBox>
