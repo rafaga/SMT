@@ -360,3 +360,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 *.p7s
+
+#MacOS TempFiles
+.DS_Store

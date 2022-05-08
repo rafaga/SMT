@@ -5,6 +5,9 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
+<NativeMenu.Menu Name="">
+    <NativeMenu/>
+</NativeMenu.Menu>
     <Application.Styles>
         <FluentTheme Mode="Dark"/>
     </Application.Styles>

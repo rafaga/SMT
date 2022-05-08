@@ -12,7 +12,7 @@ namespace SMTx.Views
     internal partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
 
-        private NativeMenu mMenu;
+        private NativeMenu nMenu;
 
         public MainWindow()
         {
@@ -27,9 +27,10 @@ namespace SMTx.Views
             if (oOS == OperatingSystemType.OSX || oOS == OperatingSystemType.Linux)
             {
                 this.FindControl<Menu>("SystemMenu").IsVisible = false;
-                mMenu = NativeMenu.GetMenu(this);
-                NativeMenu.SetMenu(App.Current, mMenu);
+                nMenu = NativeMenu.GetMenu(this);
+                NativeMenu.SetMenu(App.Current,nMenu);
             }
+            
         }
 
         private void InitializeComponent()
