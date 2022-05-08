@@ -10,6 +10,13 @@
 	<Design.DataContext>
 		<vm:MainWindowViewModel />
 	</Design.DataContext>
+  <NativeMenu.Menu>
+    <NativeMenu>
+      <NativeMenuItem Header="Check For Updates..." Gesture="cmd+u" IsEnabled="True"></NativeMenuItem>
+      <NativeMenuItemSeperator/>
+      <NativeMenuItem Header="Preferences." Gesture="cmd+u" IsEnabled="True"></NativeMenuItem>
+    </NativeMenu>
+  </NativeMenu.Menu>
 	<Grid RowDefinitions="30,*,30" ColumnDefinitions="*">
 		<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
 			<Menu Name="SystemMenu">

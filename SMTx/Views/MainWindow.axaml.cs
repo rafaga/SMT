@@ -22,12 +22,13 @@ namespace SMTx.Views
 #endif
             this.WhenActivated(d => d(ViewModel!.ShowNewVersionDialog.RegisterHandler(asyncShowNewVersionDialog)));
 
-            mMenu = NativeMenu.GetMenu(this);
+
             OperatingSystemType oOS = AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo().OperatingSystem;
             if (oOS == OperatingSystemType.OSX || oOS == OperatingSystemType.Linux)
             {
                 this.FindControl<Menu>("SystemMenu").IsVisible = false;
-                
+                mMenu = NativeMenu.GetMenu(this);
+                NativeMenu.SetMenu(App.Current, mMenu);
             }
         }
 
