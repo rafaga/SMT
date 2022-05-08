@@ -6,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
+using Avalonia.Controls.Shapes;
 
 namespace SMTx.Views
 {
@@ -24,11 +25,12 @@ namespace SMTx.Views
 
 
             OperatingSystemType oOS = AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo().OperatingSystem;
-            if (oOS == OperatingSystemType.OSX || oOS == OperatingSystemType.Linux)
+            if (oOS == OperatingSystemType.OSX)
             {
+                this.FindControl<Rectangle>("OSPadding").Width = 70;
                 //this.FindControl<Menu>("SystemMenu").IsVisible = false;
-                nMenu = NativeMenu.GetMenu(this);
-                NativeMenu.SetMenu(App.Current,nMenu);
+                /*nMenu = NativeMenu.GetMenu(this);
+                NativeMenu.SetMenu(App.Current,nMenu);*/
             }
             
         }

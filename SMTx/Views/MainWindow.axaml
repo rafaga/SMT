@@ -19,30 +19,25 @@
   </NativeMenu.Menu>
 	<Grid RowDefinitions="32,*,32" ColumnDefinitions="*">
 		<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-			<!--<Menu Name="SystemMenu" IsVisible="False">
-				<MenuItem Header="_File">
-					<MenuItem Header="_Characters"></MenuItem>
-					<MenuItem Header="_Preferences"></MenuItem>
-					<Separator></Separator>
-					<MenuItem Header="_Exit"></MenuItem>
-				</MenuItem>
-				<MenuItem Header="_Data">
-					<MenuItem Header="_Force ESI Update"></MenuItem>
-					<MenuItem Header="_Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
-				</MenuItem>
-				<MenuItem Header="_View">
-					<MenuItem Header="_Full Screen"></MenuItem>
-					<MenuItem Header="_Restore Layout"></MenuItem>
-				</MenuItem>
-			</Menu>-->
-			<Rectangle Width="70"></Rectangle>
-      <Button><PathIcon Data="{StaticResource menu}" Height="10" Width="10"/></Button>
-	  <Rectangle Width="40"/>
-	  <PathIcon Data="{StaticResource logo}"/>
-			<!--<Panel Width="200" Margin="3">
-				<Label VerticalAlignment="Center" Content="Active Character:"/>
-				<ComboBox VerticalAlignment="Center" HorizontalAlignment="Right" Items="{Binding Characters}"></ComboBox>
-			</Panel>-->
+			<Rectangle Width="5" Name="OSPadding"></Rectangle>
+      <Button ><PathIcon Data="{StaticResource menu}" Height="10" Width="10"/>
+        <Button.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="_Characters">
+              <Separator></Separator>
+              <MenuItem Header="Register New Character..."></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Options">
+              <MenuItem Header="_Force ESI Update"></MenuItem>
+              <MenuItem Header="_Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Quit SMTx"></MenuItem>
+          </MenuFlyout>
+        </Button.Flyout>
+      </Button>
+      <Rectangle Width="10"></Rectangle>
+      <Viewbox Height="50"><PathIcon Data="{StaticResource logo}"/></Viewbox>
+      <Label VerticalContentAlignment="Center" Content="Simple Map Tool Crossplatform"></Label>
 		</StackPanel>
 		<SplitView Grid.Row="1" Grid.Column="0" IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="300">
 			<SplitView.Pane>
