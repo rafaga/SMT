@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Avalonia.ReactiveUI;
 using SMTx.ViewModels;
 using ReactiveUI;
@@ -12,6 +12,8 @@ namespace SMTx.Views
     internal partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
 
+        private NativeMenu mMenu;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -20,10 +22,12 @@ namespace SMTx.Views
 #endif
             this.WhenActivated(d => d(ViewModel!.ShowNewVersionDialog.RegisterHandler(asyncShowNewVersionDialog)));
 
+            mMenu = NativeMenu.GetMenu(this);
             OperatingSystemType oOS = AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo().OperatingSystem;
             if (oOS == OperatingSystemType.OSX || oOS == OperatingSystemType.Linux)
             {
                 this.FindControl<Menu>("SystemMenu").IsVisible = false;
+                
             }
         }
 

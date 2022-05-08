@@ -1,8 +1,7 @@
-using SMTx.Services;
+﻿using SMTx.Services;
 using SMTx.Models;
 using System.Reactive.Linq;
 using ReactiveUI;
-using System;
 
 namespace SMTx.ViewModels
 {

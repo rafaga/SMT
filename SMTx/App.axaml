@@ -5,11 +5,13 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  <NativeMenu.Menu>
-    <NativeMenu>
-      <NativeMenuItem Header="Check For Updates..." Gesture="cmd+u" Command="{Binding CheckForUpodates}"></NativeMenuItem>
-    </NativeMenu>
-  </NativeMenu.Menu>
+	<NativeMenu.Menu>
+		<NativeMenu>
+			<NativeMenuItem Header="Check For Updates..." Gesture="cmd+u" IsEnabled="True"></NativeMenuItem>
+			<NativeMenuItemSeperator/>
+            <NativeMenuItem Header="Preferences." Gesture="cmd+u" IsEnabled="True"></NativeMenuItem>
+		</NativeMenu>
+	</NativeMenu.Menu>
     <Application.Styles>
         <FluentTheme Mode="Dark"/>
     </Application.Styles>
