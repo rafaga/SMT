@@ -1,11 +1,15 @@
-<Application xmlns="https://github.com/avaloniaui"
+﻿<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:SMTx"
              x:Class="SMTx.App">
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-
+  <NativeMenu.Menu>
+    <NativeMenu>
+      <NativeMenuItem Header="Check For Updates..." Gesture="cmd+u" Command="{Binding CheckForUpodates}"></NativeMenuItem>
+    </NativeMenu>
+  </NativeMenu.Menu>
     <Application.Styles>
         <FluentTheme Mode="Dark"/>
     </Application.Styles>

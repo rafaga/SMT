@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:SMTx.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,13 +6,13 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SMTx.Views.MainWindow" 
         Title="SMTx - Crossplataform SMT"
-				ExtendClientAreaToDecorationsHint="True">
+		ExtendClientAreaToDecorationsHint="True">
 	<Design.DataContext>
     <vm:MainWindowViewModel />
 	</Design.DataContext>
 	<Grid RowDefinitions="30,*,30" ColumnDefinitions="*">
 		<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-			<Menu>
+			<Menu Name="SystemMenu">
 				<MenuItem Header="_File">
 					<MenuItem Header="_Characters"></MenuItem>
 					<MenuItem Header="_Preferences"></MenuItem>
@@ -28,7 +28,7 @@
 					<MenuItem Header="_Restore Layout"></MenuItem>
 				</MenuItem>
 			</Menu>
-			<Rectangle Width="50"></Rectangle>
+			<Rectangle Width="70"></Rectangle>
 			<Panel Width="200" Margin="3">
 				<Label VerticalAlignment="Center" Content="Active Character:"/>
 				<ComboBox VerticalAlignment="Center" HorizontalAlignment="Right" Items="{Binding Characters}"></ComboBox>
