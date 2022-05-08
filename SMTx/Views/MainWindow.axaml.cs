@@ -26,7 +26,7 @@ namespace SMTx.Views
             OperatingSystemType oOS = AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo().OperatingSystem;
             if (oOS == OperatingSystemType.OSX || oOS == OperatingSystemType.Linux)
             {
-                this.FindControl<Menu>("SystemMenu").IsVisible = false;
+                //this.FindControl<Menu>("SystemMenu").IsVisible = false;
                 nMenu = NativeMenu.GetMenu(this);
                 NativeMenu.SetMenu(App.Current,nMenu);
             }
