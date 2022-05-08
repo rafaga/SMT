@@ -12,7 +12,7 @@
 	</Design.DataContext>
 	<StackPanel Orientation="Vertical">
 		<StackPanel Orientation="Horizontal">
-            <Rectangle Width="70"/>
+      <Rectangle Name="padRect" Width="70" IsVisible="False"/>
 			<Label Margin="3" Content="Update Available"/>
 		</StackPanel>
 		<Panel>

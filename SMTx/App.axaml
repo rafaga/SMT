@@ -7,7 +7,7 @@
     </Application.DataTemplates>
   <NativeMenu.Menu>
     <NativeMenu>
-      <NativeMenuItem Header="Check For Updates..." Gesture="cmd+u" Command="{Binding CheckForUpodates}"></NativeMenuItem>
+      <NativeMenuItem Header="Check For Updates..." Gesture="cmd+u" Command="{Binding CheckForUpodates}" IsEnabled="True"></NativeMenuItem>
     </NativeMenu>
   </NativeMenu.Menu>
     <Application.Styles>
