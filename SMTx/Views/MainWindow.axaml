@@ -23,15 +23,15 @@
       <Button ><PathIcon Data="{StaticResource menu}" Height="10" Width="10"/>
         <Button.Flyout>
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
-            <MenuItem Header="_Characters">
+            <MenuItem Header="Characters">
               <Separator></Separator>
               <MenuItem Header="Register New Character..."></MenuItem>
             </MenuItem>
-            <MenuItem Header="_Options">
-              <MenuItem Header="_Force ESI Update"></MenuItem>
-              <MenuItem Header="_Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
+            <MenuItem Header="Options">
+              <MenuItem Header="Force ESI Update"></MenuItem>
+              <MenuItem Header="Check for updates" Command="{Binding ClickCheckUpdates}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="_Quit SMTx"></MenuItem>
+            <MenuItem Header="Quit SMTx"></MenuItem>
           </MenuFlyout>
         </Button.Flyout>
       </Button>
