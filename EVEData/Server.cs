@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading;
+using EVEData.ESIData;
 
 namespace EVEData
 {
@@ -22,11 +23,18 @@ namespace EVEData
             timer.Interval = TimeSpan.FromMilliseconds(10000);
             timer.Tick += new EventHandler(UpdateServerTime);
             timer.Start();*/
+            updateDataFromESI();
+        }
+
+        public async Task<bool> updateDataFromESI()
+        {
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Name { get; set; }
+
 
         public int NumPlayers
         {
