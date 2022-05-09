@@ -2,6 +2,8 @@
 using SMTx.Models;
 using System.Reactive.Linq;
 using ReactiveUI;
+using EVEData;
+using System;
 
 namespace SMTx.ViewModels
 {
@@ -10,6 +12,28 @@ namespace SMTx.ViewModels
         public const string SMT_VERSION = "SMT_108";
         public Interaction<NewVersionViewModel, NewVersionViewModel?>ShowNewVersionDialog { get; }
         public IReactiveCommand ClickCheckUpdates { get; }
+        private EVEData.EveManager _data;
+
+        private string _serverVersion;
+        private int _serverPlayers;
+        private DateTime? _serverTime;
+
+        public string ServerVersion { 
+            get => _serverVersion; 
+            set => this.RaiseAndSetIfChanged(ref _serverVersion, value);
+        }
+
+        public int ServerPlayers
+        {
+            get => _serverPlayers;
+            set => this.RaiseAndSetIfChanged(ref _serverPlayers, value);
+        }
+
+        public DateTime? ServerTime
+        {
+            get => _serverTime;
+            set => this.RaiseAndSetIfChanged(ref _serverTime, value);
+        }
 
         public MainWindowViewModel()
         {                          
@@ -33,6 +57,15 @@ namespace SMTx.ViewModels
                 var result = await ShowNewVersionDialog.Handle(updater);
                 return result;
             });
+            InitEVEManager();
+        }
+
+        private void InitEVEManager()
+        {
+            _data = new EveManager(SMT_VERSION);
+            ServerPlayers = _data.ServerInfo.NumPlayers;
+            ServerTime = _data.ServerInfo.ServerTime;
+            ServerVersion = _data.ServerInfo.ServerVersion;
         }
 
     }

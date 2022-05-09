@@ -37,7 +37,7 @@
       </Button>
       <Rectangle Width="10"></Rectangle>
       <Viewbox Height="50"><PathIcon Data="{StaticResource logo}"/></Viewbox>
-      <Label VerticalContentAlignment="Center" Content="Simple Map Tool Crossplatform"></Label>
+      <Label VerticalContentAlignment="Center" Content="- Simple Map Tool Crossplatform"></Label>
 		</StackPanel>
 		<SplitView Grid.Row="1" Grid.Column="0" IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="300">
 			<SplitView.Pane>
@@ -51,18 +51,18 @@
 			<Panel>
 				<StackPanel Orientation="Horizontal">
 					<Label Margin="3" Content="EVE time:"/>
-					<Label Margin="3" Content="" />
+					<Label Margin="3" Content="{Binding ServerTime}" />
 				</StackPanel>
 			</Panel>
 			<Panel>
 				<StackPanel Orientation="Horizontal">
 					<Label Margin="3" Content="Tranquility Version:"/>
-					<Label Margin="3" Content="" />
+					<Label Margin="3" Content="{Binding ServerVersion}" />
 				</StackPanel>
 			</Panel>
 			<Panel>
 				<StackPanel Orientation="Horizontal">
-					<Label Margin="3" Content="" />
+					<Label Margin="3" Content="{Binding ServerPlayers}" />
 					<Label Margin="3" Content="Players"/>
 				</StackPanel>
 			</Panel>

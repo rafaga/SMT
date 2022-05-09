@@ -363,3 +363,6 @@ FodyWeavers.xsd
 
 #MacOS TempFiles
 .DS_Store
+
+#Ignore Appconfig to avoid expose tokens
+EVEData/EveAppConfig.cs

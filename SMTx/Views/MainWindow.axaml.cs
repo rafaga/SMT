@@ -12,8 +12,8 @@ namespace SMTx.Views
 {
     internal partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
-
-        private NativeMenu nMenu;
+        private EVEData.EveManager _data;
+        //private NativeMenu nMenu;
 
         public MainWindow()
         {

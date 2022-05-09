@@ -13,6 +13,7 @@ namespace EVEData
 
         public Server()
         {
+            
             // EVE Time is basically UTC time
             ServerTime = DateTime.UtcNow;
 

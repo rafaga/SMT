@@ -2214,7 +2214,7 @@ namespace EVEData
                 ClientId = EveAppConfig.ClientID,
                 SecretKey = EveAppConfig.SecretKey,
                 CallbackUrl = EveAppConfig.CallbackURL,
-                UserAgent = "SMT-map-app",
+                UserAgent = "SMTx",
             });
 
             ESIClient = new ESI.NET.EsiClient(config);
@@ -2230,6 +2230,7 @@ namespace EVEData
                 "esi-characters.read_standings.v1",
                 "esi-location.read_online.v1",
                 "esi-characters.read_fatigue.v1",
+                "esi-corporations.read_standings.v1", 
                 "esi-alliances.read_contacts.v1"
             };
 
