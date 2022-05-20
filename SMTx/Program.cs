@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Platform;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using System;
@@ -19,6 +20,7 @@ namespace SMTx
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .With(new AvaloniaNativePlatformOptions { OverlayPopups = true });
     }
 }
