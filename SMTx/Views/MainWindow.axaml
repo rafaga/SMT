@@ -62,7 +62,7 @@
 			</Panel>
 			<Panel>
 				<StackPanel Orientation="Horizontal">
-					<Label Margin="3" Content="{Binding ServerPlayers}" />
+					<Label Margin="3" Content="{Binding ServerPlayers, StringFormat={}{0:N0}}}" />
 					<Label Margin="3" Content="Players"/>
 				</StackPanel>
 			</Panel>
