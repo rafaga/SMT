@@ -9,26 +9,26 @@ using System.Threading.Tasks;
 /// </summary>
 namespace EVEData.ESIData
 {
-    internal class Status
+    public class Status
     {
         /// <summary>
         /// Current online player count
         /// </summary>
-        public int players;
+        public int players { get; set; }
 
         /// <summary>
         /// Running version as string
         /// </summary>
-        public string server_version;
+        public string? server_version { get; set; }
 
         /// <summary>
         /// Server start timestamp
         /// </summary>
-        public string start_time;
+        public DateTime? start_time { get; set; }
 
         /// <summary>
         /// If the server is in VIP mode
         /// </summary>
-        public bool vip;
+        public bool vip { get; set; }
     }
 }

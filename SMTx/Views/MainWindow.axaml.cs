@@ -26,9 +26,6 @@ namespace SMTx.Views
             if (oOS == OperatingSystemType.OSX)
             {
                 this.FindControl<Rectangle>("OSPadding").Width = 70;
-                //this.FindControl<Menu>("SystemMenu").IsVisible = false;
-                /*nMenu = NativeMenu.GetMenu(this);
-                NativeMenu.SetMenu(App.Current,nMenu);*/
             }
             
         }

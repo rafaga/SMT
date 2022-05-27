@@ -70,7 +70,7 @@ namespace EVEData
             LocalCharacters = new ObservableCollection<LocalCharacter>();
             VersionStr = version;
 
-            string SaveDataRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\SMT";
+            string SaveDataRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "SMT";
             if (!Directory.Exists(SaveDataRoot))
             {
                 Directory.CreateDirectory(SaveDataRoot);
@@ -78,13 +78,13 @@ namespace EVEData
 
             SaveDataRootFolder = SaveDataRoot;
 
-            SaveDataVersionFolder = SaveDataRoot + "\\" + VersionStr;
+            SaveDataVersionFolder = SaveDataRoot + Path.DirectorySeparatorChar + VersionStr;
             if (!Directory.Exists(SaveDataVersionFolder))
             {
                 Directory.CreateDirectory(SaveDataVersionFolder);
             }
 
-            string characterSaveFolder = SaveDataRootFolder + "\\Portraits";
+            string characterSaveFolder = SaveDataRootFolder + Path.DirectorySeparatorChar + "Portraits";
             if (!Directory.Exists(characterSaveFolder))
             {
                 Directory.CreateDirectory(characterSaveFolder);

@@ -21,13 +21,13 @@ namespace SMTx.Services
             _client.BaseAddress = new Uri("https://api.github.com");
         }
 
-        public GithubRelease GetLastSMTVersion()
+        public GithubRelease? GetLastSMTVersion()
         {   
             HttpResponseMessage response = _client.GetAsync("/repos/slazanger/smt/releases/latest").Result;
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = response.Content.ReadAsStringAsync().Result;
-                GithubRelease releaseInfo = JsonSerializer.Deserialize<GithubRelease>(responseBody);
+                GithubRelease? releaseInfo = JsonSerializer.Deserialize<GithubRelease>(responseBody);
                 return (releaseInfo);
             }
             return null;
