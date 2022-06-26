@@ -10,10 +10,17 @@
     <PackageReference Include="ESI.NET" Version="2021.12.12" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
     <PackageReference Include="SkiaSharp" Version="2.80.3" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.6" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="data\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="SQLite" />
+    <None Remove="Microsoft.Data.Sqlite" />
+    <None Remove="Services\" />
+  </ItemGroup>
 </Project>
